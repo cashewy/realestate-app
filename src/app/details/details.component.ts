@@ -6,17 +6,19 @@ import { HousingLocation } from '../housing-location';
 
 @Component({
   selector: 'app-details',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
 export class DetailsComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   housingService = inject(HousingService);
-  housingLocation!: HousingLocation;
-  
+  housingLocation!: HousingLocation | undefined;
+
   housingLocationId = -1;
   constructor() {
-    this.housingLocationId = Number(this.route.snapshot.params['id']);
+    const housingLocationId = Number(this.route.snapshot.params['id']);
+    this.housingLocation =
+      this.housingService.getHousingLocationById(housingLocationId);
   }
 }
